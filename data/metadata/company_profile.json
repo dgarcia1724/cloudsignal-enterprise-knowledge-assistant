@@ -1,0 +1,420 @@
+{
+  "company": {
+    "name": "CloudSignal Inc.",
+    "industry": "B2B SaaS",
+    "sector": "Cloud Monitoring & Alerting Platform",
+    "founded": "2018",
+    "headquarters": "San Francisco, CA",
+    "employee_count": 300,
+    "description": "CloudSignal provides enterprise-grade cloud monitoring, alerting, and observability solutions for modern DevOps teams.",
+    "tagline": "Real-time visibility for cloud-native infrastructure"
+  },
+
+  "departments": [
+    {
+      "name": "Engineering",
+      "code": "engineering",
+      "headcount": 100,
+      "description": "Software engineers responsible for building and maintaining the CloudSignal platform",
+      "teams": [
+        {
+          "name": "Backend Platform",
+          "headcount": 30,
+          "description": "Core monitoring APIs, data ingestion, time-series processing"
+        },
+        {
+          "name": "Frontend & UI",
+          "headcount": 25,
+          "description": "Dashboard UI, alerting console, mobile apps"
+        },
+        {
+          "name": "Data Infrastructure",
+          "headcount": 20,
+          "description": "Time-series databases, data pipelines, analytics"
+        },
+        {
+          "name": "Machine Learning",
+          "headcount": 15,
+          "description": "Anomaly detection, predictive alerting, auto-remediation"
+        },
+        {
+          "name": "Security",
+          "headcount": 10,
+          "description": "Application security, compliance, vulnerability management"
+        }
+      ]
+    },
+    {
+      "name": "SRE",
+      "code": "sre",
+      "headcount": 30,
+      "description": "Site Reliability Engineers maintaining CloudSignal's infrastructure and ensuring 99.99% uptime",
+      "teams": [
+        {
+          "name": "Platform SRE",
+          "headcount": 15,
+          "description": "Kubernetes, AWS infrastructure, service reliability"
+        },
+        {
+          "name": "Database SRE",
+          "headcount": 8,
+          "description": "PostgreSQL, Cassandra, Redis management"
+        },
+        {
+          "name": "Observability",
+          "headcount": 7,
+          "description": "Internal monitoring, SLOs, incident response"
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "code": "product",
+      "headcount": 40,
+      "description": "Product managers and designers shaping CloudSignal's product strategy",
+      "teams": [
+        {
+          "name": "Product Management",
+          "headcount": 20,
+          "description": "Product roadmap, feature prioritization, customer research"
+        },
+        {
+          "name": "Product Design",
+          "headcount": 15,
+          "description": "UX/UI design, design system, user research"
+        },
+        {
+          "name": "Product Analytics",
+          "headcount": 5,
+          "description": "Product metrics, A/B testing, user behavior analysis"
+        }
+      ]
+    },
+    {
+      "name": "HR",
+      "code": "hr",
+      "headcount": 20,
+      "description": "Human Resources managing talent, culture, and employee experience",
+      "teams": [
+        {
+          "name": "Recruiting",
+          "headcount": 8,
+          "description": "Technical recruiting, sourcing, candidate experience"
+        },
+        {
+          "name": "People Operations",
+          "headcount": 7,
+          "description": "Employee onboarding, benefits, payroll, compliance"
+        },
+        {
+          "name": "Learning & Development",
+          "headcount": 5,
+          "description": "Training programs, career development, performance management"
+        }
+      ]
+    },
+    {
+      "name": "Leadership",
+      "code": "leadership",
+      "headcount": 15,
+      "description": "Executive team and board members",
+      "teams": [
+        {
+          "name": "C-Suite",
+          "headcount": 6,
+          "description": "CEO, CTO, CFO, CPO, CMO, COO"
+        },
+        {
+          "name": "VP Level",
+          "headcount": 9,
+          "description": "VPs of Engineering, Product, Sales, Marketing, etc."
+        }
+      ]
+    },
+    {
+      "name": "Operations",
+      "code": "operations",
+      "headcount": 95,
+      "description": "Sales, marketing, customer success, and finance",
+      "teams": [
+        {
+          "name": "Sales",
+          "headcount": 30,
+          "description": "Enterprise sales, account executives, sales engineers"
+        },
+        {
+          "name": "Customer Success",
+          "headcount": 25,
+          "description": "Customer onboarding, technical support, renewals"
+        },
+        {
+          "name": "Marketing",
+          "headcount": 20,
+          "description": "Content, demand gen, product marketing, brand"
+        },
+        {
+          "name": "Finance & Legal",
+          "headcount": 15,
+          "description": "Accounting, FP&A, legal, compliance"
+        },
+        {
+          "name": "IT & Facilities",
+          "headcount": 5,
+          "description": "Internal IT support, office management"
+        }
+      ]
+    }
+  ],
+
+  "roles": [
+    {
+      "role_id": "engineer",
+      "title": "Engineer",
+      "description": "Software engineers across all engineering teams",
+      "departments": ["engineering"],
+      "responsibilities": [
+        "Write and review code",
+        "Design and implement features",
+        "Participate in on-call rotations",
+        "Contribute to technical documentation",
+        "Collaborate with product and design teams"
+      ],
+      "access_patterns": {
+        "can_view_engineering_docs": true,
+        "can_view_sre_docs": true,
+        "can_view_product_docs": false,
+        "can_view_hr_docs": false,
+        "can_view_financial_docs": false,
+        "can_access_deprecated_docs": false
+      },
+      "typical_queries": [
+        "How do I deploy to staging?",
+        "What is our API versioning strategy?",
+        "What were the lessons from the Q4 outage?",
+        "How do I set up my development environment?",
+        "What are our coding standards for Python?"
+      ]
+    },
+    {
+      "role_id": "sre",
+      "title": "Site Reliability Engineer",
+      "description": "SREs responsible for platform reliability and incident response",
+      "departments": ["sre"],
+      "responsibilities": [
+        "Maintain 99.99% uptime",
+        "Respond to production incidents",
+        "Manage Kubernetes infrastructure",
+        "Develop automation tools",
+        "Write and maintain runbooks",
+        "Participate in 24/7 on-call rotation"
+      ],
+      "access_patterns": {
+        "can_view_engineering_docs": true,
+        "can_view_sre_docs": true,
+        "can_view_product_docs": false,
+        "can_view_hr_docs": false,
+        "can_view_financial_docs": false,
+        "can_access_deprecated_docs": true
+      },
+      "typical_queries": [
+        "What is the runbook for database failover?",
+        "How do we handle a DDoS attack?",
+        "What were the root causes of recent incidents?",
+        "How do I escalate a P0 incident?",
+        "What are the disaster recovery procedures?"
+      ]
+    },
+    {
+      "role_id": "product_manager",
+      "title": "Product Manager",
+      "description": "Product managers defining product strategy and roadmap",
+      "departments": ["product"],
+      "responsibilities": [
+        "Define product roadmap",
+        "Gather customer requirements",
+        "Prioritize features",
+        "Collaborate with engineering and design",
+        "Track product metrics",
+        "Conduct user research"
+      ],
+      "access_patterns": {
+        "can_view_engineering_docs": false,
+        "can_view_sre_docs": false,
+        "can_view_product_docs": true,
+        "can_view_hr_docs": false,
+        "can_view_financial_docs": false,
+        "can_access_deprecated_docs": false
+      },
+      "typical_queries": [
+        "What is our Q1 2025 product roadmap?",
+        "What features are customers requesting most?",
+        "What are the technical constraints for the new dashboard?",
+        "What is our pricing strategy for enterprise customers?",
+        "How does our product compare to competitors?"
+      ]
+    },
+    {
+      "role_id": "hr",
+      "title": "HR Specialist",
+      "description": "HR team members managing employee lifecycle",
+      "departments": ["hr"],
+      "responsibilities": [
+        "Manage recruiting pipelines",
+        "Handle employee onboarding/offboarding",
+        "Administer benefits programs",
+        "Ensure compliance with labor laws",
+        "Manage performance review cycles",
+        "Handle employee relations"
+      ],
+      "access_patterns": {
+        "can_view_engineering_docs": false,
+        "can_view_sre_docs": false,
+        "can_view_product_docs": false,
+        "can_view_hr_docs": true,
+        "can_view_financial_docs": false,
+        "can_access_deprecated_docs": false
+      },
+      "typical_queries": [
+        "What are the salary bands for senior engineers?",
+        "What is our parental leave policy?",
+        "How do I process a new hire in Workday?",
+        "What benefits do we offer?",
+        "What is the performance review timeline?"
+      ]
+    },
+    {
+      "role_id": "manager",
+      "title": "Manager",
+      "description": "People managers across all departments",
+      "departments": ["engineering", "sre", "product", "hr", "operations"],
+      "responsibilities": [
+        "Manage team performance",
+        "Conduct 1:1s and performance reviews",
+        "Make hiring decisions",
+        "Set team goals and OKRs",
+        "Escalate and resolve issues",
+        "Develop team members"
+      ],
+      "access_patterns": {
+        "can_view_engineering_docs": true,
+        "can_view_sre_docs": true,
+        "can_view_product_docs": true,
+        "can_view_hr_docs": false,
+        "can_view_financial_docs": false,
+        "can_access_deprecated_docs": true,
+        "special_permissions": [
+          "Can view direct reports' performance reviews",
+          "Can access team-level financial data (budgets, headcount)",
+          "Can view documents created by team members"
+        ]
+      },
+      "typical_queries": [
+        "What are the OKRs for my team this quarter?",
+        "How is my team performing compared to benchmarks?",
+        "What is the budget for new hires?",
+        "What training resources are available for my team?",
+        "How do I handle a performance improvement plan?"
+      ]
+    },
+    {
+      "role_id": "admin",
+      "title": "Administrator",
+      "description": "System administrators with full access",
+      "departments": ["leadership", "hr", "it"],
+      "responsibilities": [
+        "Manage user accounts and permissions",
+        "Configure system settings",
+        "Handle data requests and exports",
+        "Ensure compliance and security",
+        "Audit system access logs"
+      ],
+      "access_patterns": {
+        "can_view_engineering_docs": true,
+        "can_view_sre_docs": true,
+        "can_view_product_docs": true,
+        "can_view_hr_docs": true,
+        "can_view_financial_docs": true,
+        "can_access_deprecated_docs": true,
+        "special_permissions": [
+          "Full access to all documents and systems",
+          "Can grant/revoke access for other users",
+          "Can view audit logs",
+          "Can export data for compliance"
+        ]
+      },
+      "typical_queries": [
+        "Show all documents accessed by user X in the past month",
+        "What documents have been created in the last week?",
+        "Generate compliance report for SOC 2 audit",
+        "Who has access to salary data?",
+        "Configure access permissions for new department"
+      ]
+    }
+  ],
+
+  "common_use_cases": [
+    {
+      "scenario": "New Engineer Onboarding",
+      "roles": ["engineer"],
+      "documents_needed": [
+        "Engineering onboarding guide",
+        "Development environment setup",
+        "Code review guidelines",
+        "Deployment procedures",
+        "On-call playbook"
+      ]
+    },
+    {
+      "scenario": "Incident Response",
+      "roles": ["sre", "engineer"],
+      "documents_needed": [
+        "Incident runbooks",
+        "Escalation procedures",
+        "Service architecture diagrams",
+        "Recent postmortems",
+        "Monitoring dashboards"
+      ]
+    },
+    {
+      "scenario": "Product Planning",
+      "roles": ["product_manager", "engineer"],
+      "documents_needed": [
+        "Product roadmap",
+        "Customer feedback",
+        "Technical feasibility docs",
+        "Competitive analysis",
+        "Feature specifications"
+      ]
+    },
+    {
+      "scenario": "Performance Review Cycle",
+      "roles": ["manager", "hr"],
+      "documents_needed": [
+        "Performance review process guide",
+        "Calibration guidelines",
+        "Compensation bands",
+        "Career ladder framework",
+        "Performance improvement plan templates"
+      ]
+    },
+    {
+      "scenario": "Security Incident Investigation",
+      "roles": ["sre", "admin"],
+      "documents_needed": [
+        "Security incident playbook",
+        "Access logs and audit trails",
+        "Security policies",
+        "Incident communication templates",
+        "Regulatory compliance procedures"
+      ]
+    }
+  ],
+
+  "metadata": {
+    "version": "1.0.0",
+    "created_at": "2025-01-01T00:00:00Z",
+    "last_updated": "2025-01-01T00:00:00Z",
+    "created_by": "System",
+    "notes": "Initial company profile for CloudSignal knowledge assistant RBAC system"
+  }
+}
