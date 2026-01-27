@@ -1,0 +1,91 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Evaluation QA Pair Schema",
+  "description": "Schema for question-answer pairs used in RAG evaluation",
+  "type": "object",
+  "required": ["qa_id", "question", "expected_answer", "source_documents", "user_context", "test_type"],
+  "properties": {
+    "qa_id": {
+      "type": "string",
+      "description": "Unique identifier for this QA pair",
+      "pattern": "^(qa|sec|edge)-[a-z]+-[0-9]{3}$"
+    },
+    "question": {
+      "type": "string",
+      "description": "The user's natural language question"
+    },
+    "expected_answer": {
+      "type": "string",
+      "description": "Ground truth answer that should be generated"
+    },
+    "source_documents": {
+      "type": "array",
+      "description": "Document IDs that contain the answer",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 1
+    },
+    "user_context": {
+      "type": "object",
+      "description": "The user making the query",
+      "required": ["user_id", "role", "department"],
+      "properties": {
+        "user_id": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["engineer", "sre", "product_manager", "hr", "manager", "admin"]
+        },
+        "department": {
+          "type": "string",
+          "enum": ["engineering", "sre", "product", "hr", "leadership", "operations"]
+        },
+        "managed_employees": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Employee IDs this user manages (for manager role)"
+        }
+      }
+    },
+    "test_type": {
+      "type": "string",
+      "enum": ["retrieval", "security", "edge_case"],
+      "description": "Type of test this QA pair exercises"
+    },
+    "expected_behavior": {
+      "type": "string",
+      "enum": ["answer", "access_denied", "partial_access", "no_results"],
+      "description": "Expected system behavior for this query"
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Expected metric thresholds for this query",
+      "properties": {
+        "min_mrr": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "min_ndcg": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "max_latency_ms": {
+          "type": "integer"
+        }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Tags for categorizing test cases"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional context or notes about this test case"
+    }
+  }
+}

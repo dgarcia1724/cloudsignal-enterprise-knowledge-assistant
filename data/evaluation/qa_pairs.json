@@ -1,0 +1,698 @@
+{
+  "version": "1.0.0",
+  "description": "Evaluation QA pairs for CloudSignal Knowledge Assistant",
+  "created_date": "2025-01-26",
+  "total_pairs": 50,
+  "qa_pairs": [
+    {
+      "qa_id": "qa-eng-001",
+      "question": "What is the maximum line length for Python code at CloudSignal?",
+      "expected_answer": "The maximum line length for Python code at CloudSignal is 100 characters, configured in pyproject.toml using Black formatter.",
+      "source_documents": ["doc-eng-coding-python"],
+      "user_context": {
+        "user_id": "eng-alice-001",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "coding-standards", "python"]
+    },
+    {
+      "qa_id": "qa-eng-002",
+      "question": "How should I name React components in TypeScript?",
+      "expected_answer": "React components should use PascalCase for component names (e.g., UserProfile, AlertDashboard) and camelCase for props and hooks. Files should use kebab-case naming.",
+      "source_documents": ["doc-eng-coding-typescript"],
+      "user_context": {
+        "user_id": "eng-bob-002",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "coding-standards", "typescript", "react"]
+    },
+    {
+      "qa_id": "qa-eng-003",
+      "question": "What are the phases of the microservices migration project?",
+      "expected_answer": "The microservices migration has 4 phases: Phase 1 - Foundation (service mesh, observability), Phase 2 - Extract Services (alerts, metrics, notifications), Phase 3 - Data Migration (event-driven, CQRS), Phase 4 - Cutover (traffic migration, decommission monolith).",
+      "source_documents": ["doc-eng-design-microservices"],
+      "user_context": {
+        "user_id": "eng-charlie-003",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "design-doc", "microservices", "architecture"]
+    },
+    {
+      "qa_id": "qa-eng-004",
+      "question": "What is the target latency for the alerting pipeline?",
+      "expected_answer": "The target latency for the alerting pipeline is end-to-end delivery under 30 seconds (p99) from metric ingestion to alert delivery. The pipeline should support 100K+ metrics per second throughput.",
+      "source_documents": ["doc-eng-design-alerting"],
+      "user_context": {
+        "user_id": "eng-diana-004",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "design-doc", "alerting", "performance"]
+    },
+    {
+      "qa_id": "qa-eng-005",
+      "question": "What authentication methods does the CloudSignal API support?",
+      "expected_answer": "The CloudSignal API supports three authentication methods: API Key authentication (X-API-Key header), OAuth 2.0 (Bearer token), and Session Cookie for web UI. API keys can have read-only or read-write scopes.",
+      "source_documents": ["doc-eng-api-auth"],
+      "user_context": {
+        "user_id": "eng-eve-005",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "api", "authentication", "security"]
+    },
+    {
+      "qa_id": "qa-eng-006",
+      "question": "What is the rate limit for the metrics API?",
+      "expected_answer": "The metrics API has rate limits of 1000 requests/minute for the metrics endpoint and 100 requests/minute for the query endpoint. Rate limit headers (X-RateLimit-Limit, X-RateLimit-Remaining) are included in responses.",
+      "source_documents": ["doc-eng-api-rest"],
+      "user_context": {
+        "user_id": "eng-frank-006",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "api", "rate-limiting"]
+    },
+    {
+      "qa_id": "qa-eng-007",
+      "question": "What services make up the CloudSignal platform architecture?",
+      "expected_answer": "The CloudSignal platform consists of: API Gateway (Kong), Core Services (Metrics Service, Alert Service, Notification Service), Data Layer (TimescaleDB, Redis, Kafka), and Infrastructure (Kubernetes on AWS EKS).",
+      "source_documents": ["doc-eng-architecture"],
+      "user_context": {
+        "user_id": "eng-grace-007",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "architecture", "platform"]
+    },
+    {
+      "qa_id": "qa-eng-008",
+      "question": "What are the required checks before a production deployment?",
+      "expected_answer": "Before production deployment: all tests passing (unit, integration, e2e), security scan completed, code review approved by 2+ reviewers, staging deployment verified, rollback plan documented, on-call engineer notified, and deployment window confirmed.",
+      "source_documents": ["doc-eng-deploy-checklist"],
+      "user_context": {
+        "user_id": "eng-henry-008",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "deployment", "checklist"]
+    },
+    {
+      "qa_id": "qa-eng-009",
+      "question": "How does blue-green deployment work at CloudSignal?",
+      "expected_answer": "Blue-green deployment uses two identical production environments. Traffic routes to 'blue' while 'green' is updated. After verification, traffic shifts to 'green' via load balancer. Rollback is instant by switching back to 'blue'. The process takes about 15-30 minutes.",
+      "source_documents": ["doc-eng-deploy-bluegreen"],
+      "user_context": {
+        "user_id": "eng-iris-009",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "deployment", "blue-green"]
+    },
+    {
+      "qa_id": "qa-eng-010",
+      "question": "What should new engineers do in their first week?",
+      "expected_answer": "In Week 1, new engineers should: complete IT setup and security training, set up development environment, review architecture docs, pair with buddy on codebase tour, attend team standup, and complete their first code review.",
+      "source_documents": ["doc-eng-onboarding"],
+      "user_context": {
+        "user_id": "eng-jack-010",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "onboarding", "new-hire"]
+    },
+    {
+      "qa_id": "qa-sre-001",
+      "question": "What caused the Q4 2024 database outage?",
+      "expected_answer": "The Q4 2024 database outage was caused by connection pool exhaustion. A configuration change reduced max connections from 500 to 200, while traffic increased due to Black Friday. The incident lasted 47 minutes with 99.2% of users affected.",
+      "source_documents": ["doc-sre-postmortem-db"],
+      "user_context": {
+        "user_id": "sre-kevin-001",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["sre", "postmortem", "database", "incident"]
+    },
+    {
+      "qa_id": "qa-sre-002",
+      "question": "What was the timeline for the payment degradation incident?",
+      "expected_answer": "The payment degradation incident on December 5, 2024 started at 14:23 UTC when latency increased. It was detected at 14:31, escalated at 14:45, root cause identified at 15:02, and fully resolved at 15:18. Total duration was 55 minutes.",
+      "source_documents": ["doc-sre-postmortem-payment"],
+      "user_context": {
+        "user_id": "sre-lisa-002",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["sre", "postmortem", "payment", "incident"]
+    },
+    {
+      "qa_id": "qa-sre-003",
+      "question": "How do I perform a database failover?",
+      "expected_answer": "Database failover steps: 1) Verify replica sync status (<10 sec lag), 2) Enable maintenance mode, 3) Stop writes to primary, 4) Promote replica using pg_promote(), 5) Update connection strings, 6) Verify application connectivity, 7) Disable maintenance mode. Expected duration: 5-10 minutes.",
+      "source_documents": ["doc-sre-runbook-db-failover"],
+      "user_context": {
+        "user_id": "sre-mike-003",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.9, "min_ndcg": 0.9, "max_latency_ms": 2000 },
+      "tags": ["sre", "runbook", "database", "failover", "critical"]
+    },
+    {
+      "qa_id": "qa-sre-004",
+      "question": "How do I recover a crashed Kubernetes pod?",
+      "expected_answer": "To recover a crashed K8s pod: 1) Check pod status with kubectl get pods, 2) View logs with kubectl logs, 3) Describe pod for events, 4) If OOMKilled, increase memory limits, 5) If CrashLoopBackOff, check application logs, 6) Delete pod to trigger recreation if needed.",
+      "source_documents": ["doc-sre-runbook-k8s"],
+      "user_context": {
+        "user_id": "sre-nancy-004",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.9, "min_ndcg": 0.9, "max_latency_ms": 2000 },
+      "tags": ["sre", "runbook", "kubernetes", "recovery"]
+    },
+    {
+      "qa_id": "qa-sre-005",
+      "question": "What is the escalation path for a P1 incident?",
+      "expected_answer": "P1 incident escalation: 0-5 min - On-call engineer acknowledges, 5-15 min - Incident Commander assigned, 15-30 min - Engineering Manager notified, 30-60 min - VP Engineering notified, 60+ min - CEO notified. All P1s require post-incident review within 48 hours.",
+      "source_documents": ["doc-sre-runbook-oncall"],
+      "user_context": {
+        "user_id": "sre-oscar-005",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.9, "min_ndcg": 0.9, "max_latency_ms": 2000 },
+      "tags": ["sre", "runbook", "oncall", "escalation"]
+    },
+    {
+      "qa_id": "qa-prod-001",
+      "question": "What features are planned for Q1 2025?",
+      "expected_answer": "Q1 2025 roadmap includes: Custom Dashboards 2.0 (drag-and-drop builder), Alert Correlation Engine (ML-powered grouping), EU Data Residency (Frankfurt region), and Mobile App Beta (iOS/Android push notifications).",
+      "source_documents": ["doc-prod-roadmap-q1"],
+      "user_context": {
+        "user_id": "pm-patricia-001",
+        "role": "product_manager",
+        "department": "product"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["product", "roadmap", "q1-2025"]
+    },
+    {
+      "qa_id": "qa-prod-002",
+      "question": "What are the requirements for the custom dashboards feature?",
+      "expected_answer": "Custom Dashboards requirements include: drag-and-drop widget builder, 10+ visualization types (line, bar, gauge, heatmap), real-time updates (5-second refresh), dashboard sharing with RBAC, and template library with 20+ pre-built templates.",
+      "source_documents": ["doc-prod-feature-dashboards"],
+      "user_context": {
+        "user_id": "pm-quinn-002",
+        "role": "product_manager",
+        "department": "product"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["product", "feature-spec", "dashboards"]
+    },
+    {
+      "qa_id": "qa-prod-003",
+      "question": "What feedback did customers give about the alerting system?",
+      "expected_answer": "Q4 2024 customer feedback on alerting: customers love the low false-positive rate but want better alert grouping/correlation, easier threshold configuration, and mobile push notifications. NPS for alerting is 58, above company average of 52.",
+      "source_documents": ["doc-prod-feedback-q4"],
+      "user_context": {
+        "user_id": "pm-rachel-003",
+        "role": "product_manager",
+        "department": "product"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["product", "customer-feedback", "alerting"]
+    },
+    {
+      "qa_id": "qa-prod-004",
+      "question": "How does CloudSignal compare to Datadog on pricing?",
+      "expected_answer": "CloudSignal is significantly cheaper than Datadog. For a typical 100-host enterprise deployment: CloudSignal costs ~$10,000/month vs Datadog's ~$58,700/month - an 83% cost savings. CloudSignal uses simple host-based pricing while Datadog charges per host plus volume.",
+      "source_documents": ["doc-prod-competitive-datadog"],
+      "user_context": {
+        "user_id": "pm-steve-004",
+        "role": "product_manager",
+        "department": "product"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["product", "competitive", "pricing", "datadog"]
+    },
+    {
+      "qa_id": "qa-prod-005",
+      "question": "What are CloudSignal's advantages over Datadog?",
+      "expected_answer": "CloudSignal advantages over Datadog: 1) 80%+ cost savings on typical deployments, 2) Easier setup and lower learning curve (rated 5 stars vs 3 for Datadog), 3) Superior alerting UX (70% win rate when alerting is primary need), 4) Better for teams under 20 engineers.",
+      "source_documents": ["doc-prod-competitive-datadog"],
+      "user_context": {
+        "user_id": "pm-tina-005",
+        "role": "product_manager",
+        "department": "product"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["product", "competitive", "datadog", "positioning"]
+    },
+    {
+      "qa_id": "qa-hr-001",
+      "question": "What are the core collaboration hours for US teams?",
+      "expected_answer": "Core collaboration hours for US teams are 10:00 AM - 3:00 PM Eastern Time. All employees should be available during these hours. Outside core hours, employees may set their own schedule and block focus time.",
+      "source_documents": ["doc-hr-policy-remote"],
+      "user_context": {
+        "user_id": "hr-uma-001",
+        "role": "hr",
+        "department": "hr"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["hr", "policy", "remote-work", "hours"]
+    },
+    {
+      "qa_id": "qa-hr-002",
+      "question": "What is the home office stipend?",
+      "expected_answer": "CloudSignal provides a monthly stipend of $100 for internet, utilities, and supplies, plus a one-time $500 setup stipend for ergonomic equipment (desk, chair). Equipment like MacBook Pro, monitor, keyboard, and headset are provided directly.",
+      "source_documents": ["doc-hr-policy-remote"],
+      "user_context": {
+        "user_id": "hr-victor-002",
+        "role": "hr",
+        "department": "hr"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["hr", "policy", "remote-work", "stipend"]
+    },
+    {
+      "qa_id": "qa-hr-003",
+      "question": "What medical plans does CloudSignal offer?",
+      "expected_answer": "CloudSignal offers three medical plans at $0 employee premium: PPO Premium ($500 deductible, 90/70 coverage), PPO Standard ($1,500 deductible, 80/60 coverage), and HDHP + HSA ($3,000 deductible, 80/60 coverage). Family coverage is also available.",
+      "source_documents": ["doc-hr-benefits"],
+      "user_context": {
+        "user_id": "hr-wendy-003",
+        "role": "hr",
+        "department": "hr"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["hr", "benefits", "medical", "insurance"]
+    },
+    {
+      "qa_id": "qa-hr-004",
+      "question": "What is the 401k match policy?",
+      "expected_answer": "CloudSignal matches 100% of the first 4% contributed to the 401(k). Eligibility is immediate upon hire with no waiting period. Vesting is also immediate. The plan is administered through Fidelity with various investment options including target date funds and index funds.",
+      "source_documents": ["doc-hr-benefits"],
+      "user_context": {
+        "user_id": "hr-xavier-004",
+        "role": "hr",
+        "department": "hr"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["hr", "benefits", "401k", "retirement"]
+    },
+    {
+      "qa_id": "qa-hr-005",
+      "question": "How much PTO do employees get?",
+      "expected_answer": "PTO accrues based on tenure: 0-2 years = 20 days/year, 3-5 years = 25 days/year, 6+ years = 30 days/year. PTO accrues monthly with max carryover of 5 days. Unused PTO is paid out upon departure. There are also 11 company holidays.",
+      "source_documents": ["doc-hr-benefits"],
+      "user_context": {
+        "user_id": "hr-yolanda-005",
+        "role": "hr",
+        "department": "hr"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["hr", "benefits", "pto", "time-off"]
+    },
+    {
+      "qa_id": "qa-ops-001",
+      "question": "What are CloudSignal's company values?",
+      "expected_answer": "CloudSignal's five core values are: 1) Customer Obsession - we succeed when customers succeed, 2) Simplicity - simple is better than complex, 3) Ownership - we take responsibility and follow through, 4) Transparency - default to open communication, 5) Continuous Improvement - always learning and growing.",
+      "source_documents": ["doc-ops-onboarding"],
+      "user_context": {
+        "user_id": "ops-zach-001",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["operations", "culture", "values", "onboarding"]
+    },
+    {
+      "qa_id": "qa-ops-002",
+      "question": "What accounts do I need to set up on my first day?",
+      "expected_answer": "On Day 1, set up these accounts: Google Workspace (email, calendar), Slack (team communication), GitHub (code repositories), Okta (single sign-on), Notion (documentation), and Lattice (performance and goals). All accounts are accessed via Okta SSO.",
+      "source_documents": ["doc-ops-onboarding"],
+      "user_context": {
+        "user_id": "ops-amy-002",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["operations", "onboarding", "accounts", "new-hire"]
+    },
+    {
+      "qa_id": "qa-cross-001",
+      "question": "How do I report a security issue?",
+      "expected_answer": "Report security issues immediately to the Security Team via #security-alerts Slack channel or security@cloudsignal.io. For urgent issues, page the security on-call via PagerDuty. Never share security incident details outside authorized channels.",
+      "source_documents": ["doc-ops-onboarding", "doc-sre-runbook-oncall"],
+      "user_context": {
+        "user_id": "eng-brian-001",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.7, "min_ndcg": 0.7, "max_latency_ms": 3000 },
+      "tags": ["cross-functional", "security", "reporting"]
+    },
+    {
+      "qa_id": "qa-cross-002",
+      "question": "What is the SLA for incident response?",
+      "expected_answer": "Incident response SLAs: P1 (Critical) - 15 min response, 4 hour resolution target; P2 (High) - 30 min response, 8 hour resolution; P3 (Medium) - 2 hour response, 24 hour resolution; P4 (Low) - 4 hour response, 72 hour resolution.",
+      "source_documents": ["doc-sre-runbook-oncall"],
+      "user_context": {
+        "user_id": "sre-chris-001",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["sre", "incident-response", "sla"]
+    },
+    {
+      "qa_id": "qa-eng-011",
+      "question": "What testing frameworks does CloudSignal use for Python?",
+      "expected_answer": "CloudSignal uses pytest for Python testing with pytest-asyncio for async tests, pytest-cov for coverage reporting, and factory_boy for test fixtures. Test coverage minimum is 80% for new code.",
+      "source_documents": ["doc-eng-coding-python"],
+      "user_context": {
+        "user_id": "eng-dana-011",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "testing", "python", "pytest"]
+    },
+    {
+      "qa_id": "qa-eng-012",
+      "question": "What is the API versioning strategy?",
+      "expected_answer": "CloudSignal uses URL path versioning (e.g., /api/v2/). Each major version is supported for 18 months after the next version releases. Deprecation notices are sent 6 months before end-of-life. Breaking changes only in major versions.",
+      "source_documents": ["doc-eng-api-rest"],
+      "user_context": {
+        "user_id": "eng-eric-012",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "api", "versioning"]
+    },
+    {
+      "qa_id": "qa-sre-006",
+      "question": "What are the key metrics to monitor during an incident?",
+      "expected_answer": "Key incident metrics: error rate (should be <1%), latency (p99 <500ms), request throughput, database connections, CPU/memory utilization, and queue depths. Dashboard links are in the #incidents Slack channel bookmark.",
+      "source_documents": ["doc-sre-runbook-oncall", "doc-sre-postmortem-db"],
+      "user_context": {
+        "user_id": "sre-fiona-006",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.7, "min_ndcg": 0.7, "max_latency_ms": 3000 },
+      "tags": ["sre", "monitoring", "incident", "metrics"]
+    },
+    {
+      "qa_id": "qa-prod-006",
+      "question": "What is the target market for CloudSignal?",
+      "expected_answer": "CloudSignal targets SMB and mid-market companies, particularly teams under 20 engineers who need powerful monitoring without Datadog's complexity. Win rate is 65% when price is primary factor and 72% for smaller teams.",
+      "source_documents": ["doc-prod-competitive-datadog"],
+      "user_context": {
+        "user_id": "pm-greg-006",
+        "role": "product_manager",
+        "department": "product"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["product", "market", "positioning"]
+    },
+    {
+      "qa_id": "qa-hr-006",
+      "question": "What is the parental leave policy?",
+      "expected_answer": "CloudSignal provides 16 weeks of paid parental leave for all new parents. This applies to birth, adoption, and foster placement. Leave can be taken continuously or split into blocks within the first year.",
+      "source_documents": ["doc-hr-benefits"],
+      "user_context": {
+        "user_id": "hr-helen-006",
+        "role": "hr",
+        "department": "hr"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["hr", "benefits", "parental-leave"]
+    },
+    {
+      "qa_id": "qa-hr-007",
+      "question": "What wellness benefits does CloudSignal offer?",
+      "expected_answer": "Wellness benefits include: Mental health - 12 therapy sessions/year fully covered, free Headspace subscription, 24/7 EAP. Physical - $100/month gym stipend, quarterly wellness challenges. Financial - 4 coaching sessions/year, $100/month student loan assistance.",
+      "source_documents": ["doc-hr-benefits"],
+      "user_context": {
+        "user_id": "hr-ian-007",
+        "role": "hr",
+        "department": "hr"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["hr", "benefits", "wellness"]
+    },
+    {
+      "qa_id": "qa-eng-013",
+      "question": "What database does CloudSignal use for metrics storage?",
+      "expected_answer": "CloudSignal uses TimescaleDB for metrics storage - a time-series database built on PostgreSQL. It provides automatic partitioning, compression, and retention policies optimized for high-volume metrics data.",
+      "source_documents": ["doc-eng-architecture"],
+      "user_context": {
+        "user_id": "eng-julia-013",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "database", "timescaledb", "architecture"]
+    },
+    {
+      "qa_id": "qa-sre-007",
+      "question": "What is the rollback procedure for a failed deployment?",
+      "expected_answer": "Rollback procedure: 1) Announce in #deployments, 2) In blue-green: switch load balancer back to previous environment, 3) In K8s: kubectl rollout undo deployment/<name>, 4) Verify health checks pass, 5) Notify stakeholders, 6) Create incident ticket for post-mortem.",
+      "source_documents": ["doc-eng-deploy-bluegreen", "doc-sre-runbook-oncall"],
+      "user_context": {
+        "user_id": "sre-karl-007",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.7, "min_ndcg": 0.7, "max_latency_ms": 3000 },
+      "tags": ["sre", "deployment", "rollback"]
+    },
+    {
+      "qa_id": "qa-ops-003",
+      "question": "What Slack channels should new employees join?",
+      "expected_answer": "New employees should join: #team-[your-team] for team discussions, #announce-general for company announcements, #random for non-work chat, and department-specific channels. Use #it-help for IT issues and #people-ops for HR questions.",
+      "source_documents": ["doc-ops-onboarding"],
+      "user_context": {
+        "user_id": "ops-laura-003",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["operations", "onboarding", "slack", "communication"]
+    },
+    {
+      "qa_id": "qa-eng-014",
+      "question": "What is the code review turnaround time expectation?",
+      "expected_answer": "Code reviews should be completed within 24 hours for standard PRs and 4 hours for urgent/hotfix PRs. Reviewers should provide constructive feedback focusing on correctness, readability, and maintainability.",
+      "source_documents": ["doc-eng-coding-python", "doc-eng-onboarding"],
+      "user_context": {
+        "user_id": "eng-mark-014",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "code-review", "process"]
+    },
+    {
+      "qa_id": "qa-prod-007",
+      "question": "What integrations are customers requesting most?",
+      "expected_answer": "Top requested integrations from Q4 2024 feedback: 1) PagerDuty bidirectional sync, 2) Jira ticket auto-creation, 3) Microsoft Teams notifications, 4) Terraform provider, 5) ServiceNow integration for enterprise customers.",
+      "source_documents": ["doc-prod-feedback-q4"],
+      "user_context": {
+        "user_id": "pm-nancy-007",
+        "role": "product_manager",
+        "department": "product"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["product", "feedback", "integrations"]
+    },
+    {
+      "qa_id": "qa-eng-015",
+      "question": "How do I set up my local development environment?",
+      "expected_answer": "Local dev setup: 1) Clone repo from GitHub, 2) Install Python 3.11+ and Node 20+, 3) Run 'make setup' to install dependencies, 4) Copy .env.example to .env, 5) Run 'docker-compose up' for services (Postgres, Redis, Qdrant), 6) Run 'make dev' to start servers.",
+      "source_documents": ["doc-eng-onboarding"],
+      "user_context": {
+        "user_id": "eng-olivia-015",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "development", "setup", "onboarding"]
+    },
+    {
+      "qa_id": "qa-sre-008",
+      "question": "What is the definition of a P1 incident?",
+      "expected_answer": "P1 (Critical) incidents: Complete service outage, data loss or corruption, security breach, or >50% of users impacted. P1s require immediate response (15 min), executive notification within 60 min, and post-incident review within 48 hours.",
+      "source_documents": ["doc-sre-runbook-oncall"],
+      "user_context": {
+        "user_id": "sre-paul-008",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.9, "min_ndcg": 0.9, "max_latency_ms": 2000 },
+      "tags": ["sre", "incident", "severity", "p1"]
+    },
+    {
+      "qa_id": "qa-hr-008",
+      "question": "What is the learning and development budget?",
+      "expected_answer": "Each employee has an annual learning budget of $2,000 for professional development. This covers courses, conferences, books, and certifications. Internal programs include engineering book club, lunch & learns, mentorship, and leadership development.",
+      "source_documents": ["doc-hr-benefits"],
+      "user_context": {
+        "user_id": "hr-quincy-008",
+        "role": "hr",
+        "department": "hr"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["hr", "benefits", "learning", "development"]
+    },
+    {
+      "qa_id": "qa-cross-003",
+      "question": "How do I expense a work-related purchase?",
+      "expected_answer": "For expenses: 1) Get pre-approval for purchases over $100, 2) Submit within 30 days of purchase via Expensify, 3) Include receipt, 4) Select appropriate category, 5) Add business justification. Reimbursement typically within 2 weeks.",
+      "source_documents": ["doc-ops-onboarding"],
+      "user_context": {
+        "user_id": "eng-rachel-003",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["operations", "expenses", "reimbursement"]
+    },
+    {
+      "qa_id": "qa-eng-016",
+      "question": "What error handling patterns should I use in Python?",
+      "expected_answer": "Python error handling: Use specific exception types, not bare 'except'. Create custom exceptions for domain errors. Log exceptions with context using structlog. Return Result types for expected failures. Use @retry decorator for transient failures with exponential backoff.",
+      "source_documents": ["doc-eng-coding-python"],
+      "user_context": {
+        "user_id": "eng-sam-016",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["engineering", "python", "error-handling", "best-practices"]
+    },
+    {
+      "qa_id": "qa-prod-008",
+      "question": "What are the success metrics for the custom dashboards feature?",
+      "expected_answer": "Custom dashboards success metrics: 60% adoption within 90 days of launch, <3 second load time for dashboards with 20 widgets, NPS improvement of +5 points, and 30% reduction in support tickets about dashboard creation.",
+      "source_documents": ["doc-prod-feature-dashboards"],
+      "user_context": {
+        "user_id": "pm-terry-008",
+        "role": "product_manager",
+        "department": "product"
+      },
+      "test_type": "retrieval",
+      "expected_behavior": "answer",
+      "metrics": { "min_mrr": 0.8, "min_ndcg": 0.8, "max_latency_ms": 3000 },
+      "tags": ["product", "metrics", "dashboards", "success"]
+    }
+  ]
+}

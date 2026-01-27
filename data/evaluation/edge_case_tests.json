@@ -1,0 +1,329 @@
+{
+  "version": "1.0.0",
+  "description": "Edge case tests for RAG system robustness",
+  "created_date": "2025-01-26",
+  "total_tests": 20,
+  "edge_case_tests": [
+    {
+      "qa_id": "edge-deprecated-001",
+      "question": "What's the procedure for deploying to bare metal servers?",
+      "expected_behavior": "no_results",
+      "expected_response": "The bare metal deployment runbook has been deprecated. CloudSignal now uses Kubernetes for all deployments. Please refer to the current deployment guides.",
+      "source_documents": ["doc-sre-deprecated-baremetal"],
+      "user_context": {
+        "user_id": "sre-kevin-001",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "deprecated_document",
+      "notes": "System should recognize deprecated status and guide to current docs",
+      "tags": ["deprecated", "runbook", "guidance"]
+    },
+    {
+      "qa_id": "edge-deprecated-002",
+      "question": "Tell me about the API gateway incident from June 2024",
+      "expected_behavior": "no_results",
+      "expected_response": "The June 2024 API Gateway postmortem is archived. For current incident patterns, please refer to recent postmortems.",
+      "source_documents": ["doc-sre-deprecated-apigateway"],
+      "user_context": {
+        "user_id": "sre-lisa-002",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "deprecated_document",
+      "notes": "Historical postmortem - deprecated but may have learning value",
+      "tags": ["deprecated", "postmortem", "historical"]
+    },
+    {
+      "qa_id": "edge-temporal-001",
+      "question": "What's on the product roadmap?",
+      "expected_behavior": "partial_access",
+      "expected_response": "Q1 2025 roadmap includes Custom Dashboards 2.0, Alert Correlation Engine, EU Data Residency, and Mobile App Beta. Q2 2025 roadmap is not yet available.",
+      "source_documents": ["doc-prod-roadmap-q1"],
+      "user_context": {
+        "user_id": "pm-patricia-001",
+        "role": "product_manager",
+        "department": "product"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "temporal_filtering",
+      "notes": "Should return Q1 (available) but not Q2 (embargoed until Feb 1)",
+      "tags": ["temporal", "roadmap", "embargo"]
+    },
+    {
+      "qa_id": "edge-temporal-002",
+      "question": "What features are planned for the first half of 2025?",
+      "expected_behavior": "partial_access",
+      "expected_response": "For H1 2025, the Q1 roadmap is available showing Custom Dashboards 2.0, Alert Correlation, EU Data Residency, and Mobile App Beta. Q2 details will be available after February 1, 2025.",
+      "source_documents": ["doc-prod-roadmap-q1", "doc-prod-roadmap-q2"],
+      "user_context": {
+        "user_id": "pm-quinn-002",
+        "role": "product_manager",
+        "department": "product"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "temporal_filtering",
+      "notes": "Query spans both Q1 (available) and Q2 (embargoed)",
+      "tags": ["temporal", "roadmap", "h1-2025"]
+    },
+    {
+      "qa_id": "edge-version-001",
+      "question": "What's the latest API specification?",
+      "expected_behavior": "answer",
+      "expected_response": "The current API specification is REST API v2 (2.1.0), which includes endpoints for metrics, alerts, dashboards, and users. Authentication supports API keys, OAuth 2.0, and session cookies.",
+      "source_documents": ["doc-eng-api-rest"],
+      "user_context": {
+        "user_id": "eng-frank-006",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "versioning",
+      "notes": "Should return v2, not older versions if they existed",
+      "tags": ["versioning", "api", "latest"]
+    },
+    {
+      "qa_id": "edge-multi-doc-001",
+      "question": "How do I set up monitoring for a new service and what coding standards should I follow?",
+      "expected_behavior": "answer",
+      "expected_response": "For monitoring setup, refer to the Platform Architecture doc for the monitoring stack (Prometheus, Grafana) and Alerting Pipeline design for alert configuration. For coding standards, follow the Python or TypeScript coding standards documents depending on your service language.",
+      "source_documents": ["doc-eng-architecture", "doc-eng-design-alerting", "doc-eng-coding-python", "doc-eng-coding-typescript"],
+      "user_context": {
+        "user_id": "eng-grace-007",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "multi_document",
+      "notes": "Query requires information from multiple documents",
+      "tags": ["multi-document", "cross-reference", "synthesis"]
+    },
+    {
+      "qa_id": "edge-multi-doc-002",
+      "question": "What's our incident response process from detection to post-mortem?",
+      "expected_behavior": "answer",
+      "expected_response": "Incident process: Detection via monitoring/alerts → Acknowledge in PagerDuty → Follow severity-based escalation (P1: 15min response) → Use runbooks for remediation → Document in incident channel → Conduct post-mortem within 48 hours using postmortem template → Implement action items.",
+      "source_documents": ["doc-sre-runbook-oncall", "doc-sre-postmortem-db", "doc-sre-postmortem-payment"],
+      "user_context": {
+        "user_id": "sre-mike-003",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "multi_document",
+      "notes": "Synthesizes process from runbook and learns from postmortems",
+      "tags": ["multi-document", "incident", "process"]
+    },
+    {
+      "qa_id": "edge-ambiguous-001",
+      "question": "What are the guidelines?",
+      "expected_behavior": "answer",
+      "expected_response": "I found several types of guidelines. Could you clarify which you need? Options include: coding standards (Python/TypeScript), deployment guidelines, remote work policy, or expense guidelines.",
+      "source_documents": [],
+      "user_context": {
+        "user_id": "eng-henry-008",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "ambiguous_query",
+      "notes": "Vague query should prompt clarification",
+      "tags": ["ambiguous", "clarification", "ux"]
+    },
+    {
+      "qa_id": "edge-ambiguous-002",
+      "question": "Tell me about the system",
+      "expected_behavior": "answer",
+      "expected_response": "CloudSignal's platform architecture includes API Gateway (Kong), Core Services (Metrics, Alerts, Notifications), Data Layer (TimescaleDB, Redis, Kafka), and runs on Kubernetes (AWS EKS). Would you like details on a specific component?",
+      "source_documents": ["doc-eng-architecture"],
+      "user_context": {
+        "user_id": "eng-iris-009",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "ambiguous_query",
+      "notes": "Provides overview and offers to drill down",
+      "tags": ["ambiguous", "overview", "architecture"]
+    },
+    {
+      "qa_id": "edge-no-match-001",
+      "question": "What is our policy on cryptocurrency payments?",
+      "expected_behavior": "no_results",
+      "expected_response": "I don't have information about cryptocurrency payment policies in our knowledge base. Please contact Finance or Legal for guidance on this topic.",
+      "source_documents": [],
+      "user_context": {
+        "user_id": "eng-jack-010",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "no_match",
+      "notes": "Topic not covered in knowledge base - should gracefully handle",
+      "tags": ["no-match", "graceful-failure"]
+    },
+    {
+      "qa_id": "edge-no-match-002",
+      "question": "How do I configure our Salesforce integration?",
+      "expected_behavior": "no_results",
+      "expected_response": "I don't have documentation for Salesforce integration. Our documented integrations include monitoring tools, alerting, and development workflows. Contact IT or Sales Ops for Salesforce-specific guidance.",
+      "source_documents": [],
+      "user_context": {
+        "user_id": "pm-rachel-003",
+        "role": "product_manager",
+        "department": "product"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "no_match",
+      "notes": "Specific integration not documented",
+      "tags": ["no-match", "integration", "redirect"]
+    },
+    {
+      "qa_id": "edge-conflicting-001",
+      "question": "What is the recommended database for new services?",
+      "expected_behavior": "answer",
+      "expected_response": "For metrics/time-series data, use TimescaleDB (as per Platform Architecture). For general relational data, PostgreSQL is standard. Redis for caching. Choose based on data type and access patterns - consult with the architecture team for specific recommendations.",
+      "source_documents": ["doc-eng-architecture", "doc-eng-design-microservices"],
+      "user_context": {
+        "user_id": "eng-alice-001",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "potentially_conflicting",
+      "notes": "Multiple valid options depending on use case",
+      "tags": ["architecture", "decision", "context-dependent"]
+    },
+    {
+      "qa_id": "edge-manager-scope-001",
+      "question": "Show me John Smith's performance review",
+      "expected_behavior": "answer",
+      "expected_response": "John Smith received 'Meets Expectations' for Q4 2024. Key achievements: Metrics API caching (62% latency reduction). Development areas: System design, cross-team collaboration. Merit increase: 3.5%. Target: L5 consideration in Q4 2025.",
+      "source_documents": ["doc-hr-review-johnsmith"],
+      "user_context": {
+        "user_id": "mgr-sarah-chen",
+        "role": "manager",
+        "department": "engineering",
+        "managed_employees": ["eng-js-001"]
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "manager_scope",
+      "notes": "Sarah Chen IS John's manager - should have access",
+      "tags": ["manager-scope", "performance-review", "authorized"]
+    },
+    {
+      "qa_id": "edge-self-access-001",
+      "question": "What was my performance rating?",
+      "expected_behavior": "answer",
+      "expected_response": "Your Q4 2024 performance rating was 'Meets Expectations'. You exceeded the Metrics API caching goal (62% vs 50% target) and met code review and on-call goals. Merit increase: 3.5% ($5,600), new base: $165,600.",
+      "source_documents": ["doc-hr-review-johnsmith"],
+      "user_context": {
+        "user_id": "eng-js-001",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "self_access",
+      "notes": "John Smith accessing his own review - should be allowed",
+      "tags": ["self-access", "performance-review", "authorized"]
+    },
+    {
+      "qa_id": "edge-admin-001",
+      "question": "Show me the financial report and salary bands",
+      "expected_behavior": "answer",
+      "expected_response": "Q4 2024 Financial Report: ARR $4.2M (+18% QoQ), 247 customers, gross margin 78%, burn rate $420K/mo, runway 16.5 months. Engineering Salary Bands 2025: L3 $120-150K, L4 $145-185K, L5 $175-225K, L6 $210-270K, L7 $260-340K.",
+      "source_documents": ["doc-lead-financial-q4", "doc-hr-salary-bands"],
+      "user_context": {
+        "user_id": "admin-super-001",
+        "role": "admin",
+        "department": "leadership"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "admin_access",
+      "notes": "Admin role should have access to all documents",
+      "tags": ["admin", "full-access", "confidential"]
+    },
+    {
+      "qa_id": "edge-citation-001",
+      "question": "What is the SLA for P1 incidents?",
+      "expected_behavior": "answer",
+      "expected_response": "P1 (Critical) incidents have a 15-minute response SLA and 4-hour resolution target. P1 criteria: complete outage, data loss, security breach, or >50% users impacted. [Source: On-Call Escalation Runbook, Section: Incident Severity]",
+      "source_documents": ["doc-sre-runbook-oncall"],
+      "user_context": {
+        "user_id": "sre-paul-008",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "citation",
+      "notes": "Response should include citation to source document",
+      "tags": ["citation", "source", "transparency"]
+    },
+    {
+      "qa_id": "edge-follow-up-001",
+      "question": "You mentioned L5 earlier - what are the promotion guidelines to reach that level?",
+      "expected_behavior": "answer",
+      "expected_response": "L5 (Senior Engineer) promotion requires: 4-7 years experience, ownership of large features/systems, demonstrated technical leadership, and cross-team impact. Typical salary increase is 12-18% at promotion, landing at 25-50% of the new band.",
+      "source_documents": ["doc-hr-salary-bands"],
+      "user_context": {
+        "user_id": "hr-helen-006",
+        "role": "hr",
+        "department": "hr"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "follow_up",
+      "notes": "Tests context retention for follow-up questions",
+      "tags": ["follow-up", "context", "conversation"]
+    },
+    {
+      "qa_id": "edge-typo-001",
+      "question": "How do I set up a bleu-green deployment?",
+      "expected_behavior": "answer",
+      "expected_response": "Blue-green deployment uses two production environments. Deploy to inactive (green), verify, then switch traffic via load balancer. Rollback is instant. Steps: 1) Deploy to green, 2) Run smoke tests, 3) Switch LB, 4) Monitor, 5) Decommission blue.",
+      "source_documents": ["doc-eng-deploy-bluegreen"],
+      "user_context": {
+        "user_id": "eng-mark-014",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "typo_handling",
+      "notes": "Should handle 'bleu-green' typo and return blue-green docs",
+      "tags": ["typo", "fuzzy-match", "ux"]
+    },
+    {
+      "qa_id": "edge-synonym-001",
+      "question": "What's our vacation policy?",
+      "expected_behavior": "answer",
+      "expected_response": "PTO policy: 0-2 years tenure = 20 days/year, 3-5 years = 25 days, 6+ years = 30 days. Accrues monthly, max 5-day carryover. Plus 11 company holidays. Additional leave includes 16 weeks parental, 5 days bereavement, and 2 volunteer days/year.",
+      "source_documents": ["doc-hr-benefits"],
+      "user_context": {
+        "user_id": "eng-olivia-015",
+        "role": "engineer",
+        "department": "engineering"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "synonym_handling",
+      "notes": "Should match 'vacation' to 'PTO' in documents",
+      "tags": ["synonym", "semantic-match", "ux"]
+    },
+    {
+      "qa_id": "edge-recency-001",
+      "question": "What was the most recent incident?",
+      "expected_behavior": "answer",
+      "expected_response": "The most recent documented incident is the Payment Gateway Degradation on December 5, 2024. Root cause: connection pool exhaustion in payment service. Duration: 55 minutes. Impact: 15% of payment requests failed. Resolution: connection pool limits increased.",
+      "source_documents": ["doc-sre-postmortem-payment", "doc-sre-postmortem-db"],
+      "user_context": {
+        "user_id": "sre-fiona-006",
+        "role": "sre",
+        "department": "sre"
+      },
+      "test_type": "edge_case",
+      "edge_case_type": "recency",
+      "notes": "Should return most recent by date, not arbitrary ordering",
+      "tags": ["recency", "temporal", "ordering"]
+    }
+  ]
+}
