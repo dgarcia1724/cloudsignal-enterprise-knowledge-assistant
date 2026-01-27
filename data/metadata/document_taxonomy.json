@@ -1,0 +1,614 @@
+{
+  "version": "1.0.0",
+  "description": "Document taxonomy for CloudSignal Knowledge Assistant. Defines all document types, their properties, and relationships to the RBAC system.",
+  "last_updated": "2025-01-26T00:00:00Z",
+
+  "access_levels": {
+    "public": {
+      "code": "public",
+      "name": "Public",
+      "description": "Accessible to all authenticated CloudSignal employees",
+      "sensitivity": 1,
+      "requires_audit_log": false
+    },
+    "internal": {
+      "code": "internal",
+      "name": "Internal",
+      "description": "Department-specific or role-specific access required",
+      "sensitivity": 2,
+      "requires_audit_log": false
+    },
+    "restricted": {
+      "code": "restricted",
+      "name": "Restricted",
+      "description": "Senior roles, specific departments, or explicit grants required",
+      "sensitivity": 3,
+      "requires_audit_log": true
+    },
+    "confidential": {
+      "code": "confidential",
+      "name": "Confidential",
+      "description": "HR, Leadership, and Admin only - most sensitive data",
+      "sensitivity": 4,
+      "requires_audit_log": true
+    }
+  },
+
+  "departments": {
+    "engineering": {
+      "code": "engineering",
+      "name": "Engineering",
+      "employee_count": 100,
+      "teams": ["Backend Platform", "Frontend & UI", "Data Infrastructure", "Machine Learning", "Security"]
+    },
+    "sre": {
+      "code": "sre",
+      "name": "Site Reliability Engineering",
+      "employee_count": 30,
+      "teams": ["Platform SRE", "Database SRE", "Observability"]
+    },
+    "product": {
+      "code": "product",
+      "name": "Product",
+      "employee_count": 40,
+      "teams": ["Product Management", "Design", "Analytics"]
+    },
+    "hr": {
+      "code": "hr",
+      "name": "Human Resources",
+      "employee_count": 20,
+      "teams": ["Recruiting", "People Operations", "Learning & Development"]
+    },
+    "leadership": {
+      "code": "leadership",
+      "name": "Leadership",
+      "employee_count": 15,
+      "teams": ["C-Suite", "VP Level"]
+    },
+    "operations": {
+      "code": "operations",
+      "name": "Operations",
+      "employee_count": 95,
+      "teams": ["Sales", "Customer Success", "Marketing", "Finance", "IT & Facilities"]
+    }
+  },
+
+  "document_types": {
+    "postmortem": {
+      "name": "Incident Postmortem",
+      "description": "Post-incident analysis documenting root cause, timeline, and lessons learned from production incidents.",
+      "department": "sre",
+      "default_access_level": "internal",
+      "allowed_roles": ["engineer", "sre", "manager", "admin"],
+      "allowed_departments": ["engineering", "sre"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "1000-3000 words",
+      "requires_audit_log": false,
+      "retention_policy": "permanent",
+      "example_titles": [
+        "Q4 2024 Database Outage Postmortem",
+        "API Gateway Latency Spike - December 2024",
+        "Payment Service Degradation Analysis"
+      ],
+      "example_queries": [
+        "What caused the recent database outage?",
+        "How do we prevent cascading failures?",
+        "What were the lessons from the payment incident?"
+      ],
+      "keywords": ["incident", "outage", "root cause", "timeline", "lessons learned", "action items"]
+    },
+
+    "runbook": {
+      "name": "Operational Runbook",
+      "description": "Step-by-step procedures for handling operational tasks and incident response.",
+      "department": "sre",
+      "default_access_level": "restricted",
+      "allowed_roles": ["sre", "manager", "admin"],
+      "allowed_departments": ["sre"],
+      "file_formats": [".md"],
+      "typical_length": "500-2000 words",
+      "requires_audit_log": true,
+      "retention_policy": "permanent",
+      "example_titles": [
+        "Database Failover Runbook",
+        "Kubernetes Pod Recovery Procedure",
+        "On-Call Escalation Playbook"
+      ],
+      "example_queries": [
+        "How do I failover the database?",
+        "What's the procedure for pod recovery?",
+        "When should I escalate to the on-call manager?"
+      ],
+      "keywords": ["procedure", "steps", "on-call", "incident response", "recovery", "escalation"]
+    },
+
+    "design_doc": {
+      "name": "Design Document",
+      "description": "Technical design proposals for new features or architectural changes.",
+      "department": "engineering",
+      "default_access_level": "internal",
+      "allowed_roles": ["engineer", "sre", "manager", "admin"],
+      "allowed_departments": ["engineering", "sre"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "2000-5000 words",
+      "requires_audit_log": false,
+      "retention_policy": "permanent",
+      "example_titles": [
+        "RFC: Microservices Migration Strategy",
+        "Design: Real-time Alerting Pipeline",
+        "Technical Proposal: GraphQL API Layer"
+      ],
+      "example_queries": [
+        "What is our microservices migration plan?",
+        "How does the alerting pipeline work?",
+        "What's the design for the new API layer?"
+      ],
+      "keywords": ["design", "RFC", "proposal", "architecture", "technical", "implementation"]
+    },
+
+    "api_spec": {
+      "name": "API Specification",
+      "description": "API documentation including endpoints, request/response formats, and authentication.",
+      "department": "engineering",
+      "default_access_level": "internal",
+      "allowed_roles": ["engineer", "sre", "manager", "admin"],
+      "allowed_departments": ["engineering", "sre"],
+      "file_formats": [".md", ".yaml", ".json"],
+      "typical_length": "500-3000 words",
+      "requires_audit_log": false,
+      "retention_policy": "version_controlled",
+      "example_titles": [
+        "CloudSignal REST API v2 Specification",
+        "Webhook Events API Reference",
+        "Authentication API Documentation"
+      ],
+      "example_queries": [
+        "What are the API endpoints for alerts?",
+        "How do I authenticate API requests?",
+        "What's the webhook payload format?"
+      ],
+      "keywords": ["API", "endpoint", "REST", "authentication", "request", "response", "webhook"]
+    },
+
+    "architecture_doc": {
+      "name": "Architecture Document",
+      "description": "System architecture documentation including diagrams, component descriptions, and data flows.",
+      "department": "engineering",
+      "default_access_level": "internal",
+      "allowed_roles": ["engineer", "sre", "manager", "admin"],
+      "allowed_departments": ["engineering", "sre"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "1500-4000 words",
+      "requires_audit_log": false,
+      "retention_policy": "permanent",
+      "example_titles": [
+        "CloudSignal Platform Architecture Overview",
+        "Data Pipeline Architecture",
+        "Multi-Region Deployment Architecture"
+      ],
+      "example_queries": [
+        "How is the platform architected?",
+        "What's our multi-region strategy?",
+        "How does data flow through the system?"
+      ],
+      "keywords": ["architecture", "system design", "components", "diagram", "data flow", "infrastructure"]
+    },
+
+    "deployment_guide": {
+      "name": "Deployment Guide",
+      "description": "Instructions for deploying services to various environments.",
+      "department": "engineering",
+      "default_access_level": "internal",
+      "allowed_roles": ["engineer", "sre", "manager", "admin"],
+      "allowed_departments": ["engineering", "sre"],
+      "file_formats": [".md"],
+      "typical_length": "500-1500 words",
+      "requires_audit_log": false,
+      "retention_policy": "version_controlled",
+      "example_titles": [
+        "Production Deployment Checklist",
+        "Kubernetes Deployment Guide",
+        "Blue-Green Deployment Procedure"
+      ],
+      "example_queries": [
+        "How do I deploy to production?",
+        "What's the deployment checklist?",
+        "How does blue-green deployment work?"
+      ],
+      "keywords": ["deployment", "release", "production", "staging", "CI/CD", "rollback"]
+    },
+
+    "coding_standards": {
+      "name": "Coding Standards",
+      "description": "Code style guides, conventions, and best practices for the engineering team.",
+      "department": "engineering",
+      "default_access_level": "public",
+      "allowed_roles": ["engineer", "sre", "product_manager", "hr", "manager", "admin"],
+      "allowed_departments": ["*"],
+      "file_formats": [".md"],
+      "typical_length": "1000-3000 words",
+      "requires_audit_log": false,
+      "retention_policy": "version_controlled",
+      "example_titles": [
+        "Python Style Guide",
+        "TypeScript Best Practices",
+        "Code Review Guidelines"
+      ],
+      "example_queries": [
+        "What are our Python coding standards?",
+        "How should I format TypeScript code?",
+        "What's the code review process?"
+      ],
+      "keywords": ["style guide", "conventions", "best practices", "code review", "linting", "formatting"]
+    },
+
+    "roadmap": {
+      "name": "Product Roadmap",
+      "description": "Strategic product planning documents outlining upcoming features and priorities.",
+      "department": "product",
+      "default_access_level": "restricted",
+      "allowed_roles": ["product_manager", "manager", "admin"],
+      "allowed_departments": ["product", "leadership"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "1000-2500 words",
+      "requires_audit_log": true,
+      "retention_policy": "version_controlled",
+      "example_titles": [
+        "Q1 2025 Product Roadmap",
+        "Annual Strategic Roadmap 2025",
+        "Mobile App Roadmap"
+      ],
+      "example_queries": [
+        "What's on the Q1 roadmap?",
+        "What features are planned for 2025?",
+        "When is the mobile app launching?"
+      ],
+      "keywords": ["roadmap", "strategy", "priorities", "features", "timeline", "planning"]
+    },
+
+    "feature_spec": {
+      "name": "Feature Specification",
+      "description": "Detailed specifications for product features including requirements and acceptance criteria.",
+      "department": "product",
+      "default_access_level": "internal",
+      "allowed_roles": ["product_manager", "manager", "admin"],
+      "allowed_departments": ["product"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "1500-4000 words",
+      "requires_audit_log": false,
+      "retention_policy": "permanent",
+      "example_titles": [
+        "Custom Dashboard Feature Spec",
+        "Alert Notification Preferences Spec",
+        "Team Collaboration Features PRD"
+      ],
+      "example_queries": [
+        "What are the requirements for custom dashboards?",
+        "How should alert notifications work?",
+        "What's included in team collaboration?"
+      ],
+      "keywords": ["requirements", "PRD", "specification", "acceptance criteria", "user stories", "feature"]
+    },
+
+    "customer_feedback": {
+      "name": "Customer Feedback",
+      "description": "Aggregated customer feedback, research findings, and user interview summaries.",
+      "department": "product",
+      "default_access_level": "internal",
+      "allowed_roles": ["product_manager", "manager", "admin"],
+      "allowed_departments": ["product"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "500-2000 words",
+      "requires_audit_log": false,
+      "retention_policy": "2_years",
+      "example_titles": [
+        "Q4 2024 Customer Feedback Summary",
+        "Enterprise Customer Interview Findings",
+        "NPS Survey Analysis Report"
+      ],
+      "example_queries": [
+        "What are customers saying about our product?",
+        "What did enterprise customers request?",
+        "What's our current NPS score?"
+      ],
+      "keywords": ["feedback", "customers", "research", "interviews", "NPS", "survey", "user"]
+    },
+
+    "competitive_analysis": {
+      "name": "Competitive Analysis",
+      "description": "Analysis of competitor products, market positioning, and differentiation strategies.",
+      "department": "product",
+      "default_access_level": "restricted",
+      "allowed_roles": ["product_manager", "manager", "admin"],
+      "allowed_departments": ["product", "leadership"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "1000-3000 words",
+      "requires_audit_log": true,
+      "retention_policy": "1_year",
+      "example_titles": [
+        "Datadog vs CloudSignal Comparison",
+        "Competitive Landscape Q1 2025",
+        "Market Positioning Analysis"
+      ],
+      "example_queries": [
+        "How do we compare to Datadog?",
+        "What's our competitive advantage?",
+        "Who are our main competitors?"
+      ],
+      "keywords": ["competitors", "market", "positioning", "differentiation", "comparison", "analysis"]
+    },
+
+    "pricing_strategy": {
+      "name": "Pricing Strategy",
+      "description": "Pricing models, tiers, and strategic pricing decisions.",
+      "department": "product",
+      "default_access_level": "confidential",
+      "allowed_roles": ["product_manager", "admin"],
+      "allowed_departments": ["product", "leadership"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "1000-2500 words",
+      "requires_audit_log": true,
+      "retention_policy": "permanent",
+      "example_titles": [
+        "2025 Pricing Strategy",
+        "Enterprise Tier Pricing Model",
+        "Usage-Based Pricing Analysis"
+      ],
+      "example_queries": [
+        "What's our pricing strategy?",
+        "How is enterprise pricing structured?",
+        "What are the pricing tiers?"
+      ],
+      "keywords": ["pricing", "tiers", "model", "revenue", "enterprise", "strategy"]
+    },
+
+    "hr_policy": {
+      "name": "HR Policy",
+      "description": "Human resources policies including leave, conduct, and workplace guidelines.",
+      "department": "hr",
+      "default_access_level": "public",
+      "allowed_roles": ["*"],
+      "allowed_departments": ["*"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "500-2000 words",
+      "requires_audit_log": false,
+      "retention_policy": "permanent",
+      "example_titles": [
+        "Remote Work Policy",
+        "Code of Conduct",
+        "Leave and PTO Policy"
+      ],
+      "example_queries": [
+        "What's the remote work policy?",
+        "How much PTO do I get?",
+        "What's the code of conduct?"
+      ],
+      "keywords": ["policy", "HR", "leave", "PTO", "conduct", "workplace", "guidelines"]
+    },
+
+    "benefits_guide": {
+      "name": "Benefits Guide",
+      "description": "Employee benefits documentation including health, retirement, and perks.",
+      "department": "hr",
+      "default_access_level": "public",
+      "allowed_roles": ["*"],
+      "allowed_departments": ["*"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "1000-3000 words",
+      "requires_audit_log": false,
+      "retention_policy": "version_controlled",
+      "example_titles": [
+        "2025 Benefits Overview",
+        "Health Insurance Guide",
+        "401(k) Plan Details"
+      ],
+      "example_queries": [
+        "What health insurance do we offer?",
+        "How does the 401(k) match work?",
+        "What are our employee perks?"
+      ],
+      "keywords": ["benefits", "health", "insurance", "401k", "retirement", "perks"]
+    },
+
+    "salary_bands": {
+      "name": "Salary Bands",
+      "description": "Compensation ranges by level and role for the organization.",
+      "department": "hr",
+      "default_access_level": "confidential",
+      "allowed_roles": ["hr", "admin"],
+      "allowed_departments": ["hr", "leadership"],
+      "file_formats": [".pdf", ".xlsx"],
+      "typical_length": "varies",
+      "requires_audit_log": true,
+      "retention_policy": "permanent",
+      "example_titles": [
+        "2025 Engineering Salary Bands",
+        "Company-Wide Compensation Ranges",
+        "Executive Compensation Structure"
+      ],
+      "example_queries": [
+        "What's the salary range for L5 engineers?",
+        "What are the compensation bands?",
+        "How are salaries structured by level?"
+      ],
+      "keywords": ["salary", "compensation", "bands", "levels", "pay", "ranges"]
+    },
+
+    "performance_review": {
+      "name": "Performance Review",
+      "description": "Employee performance evaluations and feedback documentation.",
+      "department": "hr",
+      "default_access_level": "confidential",
+      "allowed_roles": ["hr", "manager", "admin"],
+      "allowed_departments": ["hr"],
+      "file_formats": [".pdf"],
+      "typical_length": "500-1500 words",
+      "requires_audit_log": true,
+      "retention_policy": "7_years",
+      "special_access_rules": {
+        "manager_scope": "direct_reports_only",
+        "employee_self_access": true
+      },
+      "example_titles": [
+        "Q4 2024 Performance Review - John Smith",
+        "Annual Performance Summary 2024",
+        "Mid-Year Check-In Review"
+      ],
+      "example_queries": [
+        "What feedback did I receive?",
+        "How is my team performing?",
+        "What were the review outcomes?"
+      ],
+      "keywords": ["performance", "review", "feedback", "evaluation", "goals", "rating"]
+    },
+
+    "onboarding_guide": {
+      "name": "Onboarding Guide",
+      "description": "New employee onboarding documentation and setup instructions.",
+      "department": "hr",
+      "default_access_level": "public",
+      "allowed_roles": ["*"],
+      "allowed_departments": ["*"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "1000-3000 words",
+      "requires_audit_log": false,
+      "retention_policy": "version_controlled",
+      "example_titles": [
+        "New Employee Onboarding Checklist",
+        "Engineering Onboarding Guide",
+        "First Week at CloudSignal"
+      ],
+      "example_queries": [
+        "What do I need to do on my first day?",
+        "How do I set up my development environment?",
+        "What's the onboarding checklist?"
+      ],
+      "keywords": ["onboarding", "new hire", "setup", "checklist", "first day", "orientation"]
+    },
+
+    "security_incident": {
+      "name": "Security Incident Report",
+      "description": "Documentation of security breaches, vulnerabilities, and remediation actions.",
+      "department": "leadership",
+      "default_access_level": "confidential",
+      "allowed_roles": ["sre", "admin"],
+      "allowed_departments": ["sre", "leadership"],
+      "file_formats": [".md", ".pdf"],
+      "typical_length": "1000-3000 words",
+      "requires_audit_log": true,
+      "retention_policy": "permanent",
+      "example_titles": [
+        "Security Incident Report: API Key Exposure",
+        "Vulnerability Disclosure: CVE-2024-XXXX",
+        "Data Breach Investigation Summary"
+      ],
+      "example_queries": [
+        "What security incidents have occurred?",
+        "How was the breach remediated?",
+        "What vulnerabilities were found?"
+      ],
+      "keywords": ["security", "incident", "breach", "vulnerability", "remediation", "CVE"]
+    },
+
+    "financial_report": {
+      "name": "Financial Report",
+      "description": "Company financial statements, projections, and budget documents.",
+      "department": "leadership",
+      "default_access_level": "confidential",
+      "allowed_roles": ["admin"],
+      "allowed_departments": ["leadership"],
+      "file_formats": [".pdf", ".xlsx"],
+      "typical_length": "varies",
+      "requires_audit_log": true,
+      "retention_policy": "permanent",
+      "example_titles": [
+        "Q4 2024 Financial Report",
+        "2025 Budget Projections",
+        "Revenue Forecast Model"
+      ],
+      "example_queries": [
+        "What's our Q4 revenue?",
+        "What's the 2025 budget?",
+        "How are we tracking against projections?"
+      ],
+      "keywords": ["financial", "revenue", "budget", "projections", "P&L", "forecast"]
+    },
+
+    "board_deck": {
+      "name": "Board Deck",
+      "description": "Executive presentations for board meetings and investor updates.",
+      "department": "leadership",
+      "default_access_level": "confidential",
+      "allowed_roles": ["admin"],
+      "allowed_departments": ["leadership"],
+      "file_formats": [".pdf", ".pptx"],
+      "typical_length": "varies",
+      "requires_audit_log": true,
+      "retention_policy": "permanent",
+      "example_titles": [
+        "Q4 2024 Board Meeting Deck",
+        "Series C Investor Update",
+        "Annual Business Review 2024"
+      ],
+      "example_queries": [
+        "What was presented at the last board meeting?",
+        "What's the investor update?",
+        "What's in the annual review?"
+      ],
+      "keywords": ["board", "investors", "presentation", "deck", "executive", "update"]
+    }
+  },
+
+  "document_lifecycle": {
+    "statuses": {
+      "draft": {
+        "description": "Work in progress, not yet published",
+        "searchable": false,
+        "visible_to": ["owner", "admin"]
+      },
+      "active": {
+        "description": "Current, published document",
+        "searchable": true,
+        "visible_to": "per_rbac_rules"
+      },
+      "deprecated": {
+        "description": "Outdated but retained for reference",
+        "searchable": true,
+        "visible_to": ["sre", "manager", "admin"],
+        "notes": "Hidden from most users to avoid outdated information"
+      },
+      "archived": {
+        "description": "Retained for compliance, not searchable",
+        "searchable": false,
+        "visible_to": ["admin"]
+      }
+    },
+    "transitions": [
+      {"from": "draft", "to": "active", "action": "publish"},
+      {"from": "active", "to": "deprecated", "action": "deprecate"},
+      {"from": "deprecated", "to": "archived", "action": "archive"},
+      {"from": "deprecated", "to": "active", "action": "restore"}
+    ]
+  },
+
+  "versioning": {
+    "strategy": "semantic_versioning",
+    "format": "major.minor.patch",
+    "rules": {
+      "major": "Breaking changes or complete rewrites",
+      "minor": "New sections or significant updates",
+      "patch": "Typo fixes, clarifications, minor edits"
+    },
+    "retention": {
+      "keep_versions": 5,
+      "notes": "Keep last 5 versions for audit trail"
+    }
+  },
+
+  "metadata": {
+    "version": "1.0.0",
+    "created_at": "2025-01-26T00:00:00Z",
+    "created_by": "CloudSignal Knowledge Assistant Team",
+    "compatible_with_rbac_version": "1.0.0"
+  }
+}

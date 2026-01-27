@@ -1,0 +1,396 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://cloudsignal.com/schemas/document-metadata.json",
+  "title": "CloudSignal Document Metadata Schema",
+  "description": "JSON Schema for document metadata stored in Qdrant vector database. All fields marked as 'qdrant_indexed' are used for RBAC filtering at query time.",
+  "version": "1.0.0",
+
+  "type": "object",
+  "required": [
+    "document_id",
+    "title",
+    "doc_type",
+    "access_level",
+    "department",
+    "status",
+    "owner_id",
+    "created_date",
+    "allowed_roles",
+    "allowed_departments"
+  ],
+
+  "properties": {
+    "document_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the document (UUID v4)",
+      "qdrant_indexed": true,
+      "examples": ["550e8400-e29b-41d4-a716-446655440000"]
+    },
+
+    "title": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 500,
+      "description": "Human-readable document title",
+      "qdrant_indexed": false,
+      "examples": ["Q4 2024 Database Outage Postmortem", "Python Style Guide"]
+    },
+
+    "doc_type": {
+      "type": "string",
+      "enum": [
+        "postmortem",
+        "runbook",
+        "design_doc",
+        "api_spec",
+        "architecture_doc",
+        "deployment_guide",
+        "coding_standards",
+        "roadmap",
+        "feature_spec",
+        "customer_feedback",
+        "competitive_analysis",
+        "pricing_strategy",
+        "hr_policy",
+        "benefits_guide",
+        "salary_bands",
+        "performance_review",
+        "onboarding_guide",
+        "security_incident",
+        "financial_report",
+        "board_deck"
+      ],
+      "description": "Document type classification (must match taxonomy)",
+      "qdrant_indexed": true
+    },
+
+    "access_level": {
+      "type": "string",
+      "enum": ["public", "internal", "restricted", "confidential"],
+      "description": "Security classification level",
+      "qdrant_indexed": true
+    },
+
+    "department": {
+      "type": "string",
+      "enum": ["engineering", "sre", "product", "hr", "leadership", "operations"],
+      "description": "Owning department for this document",
+      "qdrant_indexed": true
+    },
+
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "deprecated", "archived"],
+      "description": "Document lifecycle status",
+      "qdrant_indexed": true,
+      "default": "active"
+    },
+
+    "owner_id": {
+      "type": "string",
+      "pattern": "^[a-z]+-[0-9]+$",
+      "description": "User ID of document owner (format: role-number)",
+      "qdrant_indexed": true,
+      "examples": ["eng-123", "sre-456", "hr-789"]
+    },
+
+    "created_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when document was created",
+      "qdrant_indexed": false,
+      "examples": ["2025-01-15T10:30:00Z"]
+    },
+
+    "last_modified": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp of last modification",
+      "qdrant_indexed": false,
+      "examples": ["2025-01-20T14:45:00Z"]
+    },
+
+    "allowed_roles": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["engineer", "sre", "product_manager", "hr", "manager", "admin"]
+      },
+      "minItems": 1,
+      "description": "Roles that can access this document (used in RBAC filter)",
+      "qdrant_indexed": true,
+      "examples": [["engineer", "sre", "manager", "admin"]]
+    },
+
+    "allowed_departments": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["engineering", "sre", "product", "hr", "leadership", "operations", "*"]
+      },
+      "minItems": 1,
+      "description": "Departments that can access this document (used in RBAC filter). Use '*' for all departments.",
+      "qdrant_indexed": true,
+      "examples": [["engineering", "sre"]]
+    },
+
+    "granted_users": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]+$"
+      },
+      "default": [],
+      "description": "User IDs with explicit access grant (overrides role-based denial)",
+      "qdrant_indexed": true,
+      "examples": [["eng-100", "pm-50"]]
+    },
+
+    "denied_users": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z]+-[0-9]+$"
+      },
+      "default": [],
+      "description": "User IDs explicitly denied access (highest priority, overrides all grants)",
+      "qdrant_indexed": true,
+      "examples": [["eng-999"]]
+    },
+
+    "requires_audit_log": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether access to this document should be logged for audit",
+      "qdrant_indexed": false
+    },
+
+    "available_from": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "default": null,
+      "description": "Embargo date - document not visible until this time",
+      "qdrant_indexed": true,
+      "examples": ["2025-02-01T00:00:00Z", null]
+    },
+
+    "available_until": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "default": null,
+      "description": "Expiration date - document hidden after this time",
+      "qdrant_indexed": true,
+      "examples": ["2025-12-31T23:59:59Z", null]
+    },
+
+    "summary": {
+      "type": "string",
+      "maxLength": 1000,
+      "description": "Brief summary of document content for search results",
+      "qdrant_indexed": false,
+      "examples": ["Analysis of the Q4 database outage including root cause and remediation steps."]
+    },
+
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 50
+      },
+      "maxItems": 20,
+      "default": [],
+      "description": "Keywords for improved search relevance",
+      "qdrant_indexed": false,
+      "examples": [["database", "outage", "postmortem", "postgresql"]]
+    },
+
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "default": "1.0.0",
+      "description": "Semantic version of the document",
+      "qdrant_indexed": false,
+      "examples": ["1.0.0", "2.1.3"]
+    },
+
+    "related_docs": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "format": "uuid"
+      },
+      "default": [],
+      "description": "UUIDs of related documents for cross-referencing",
+      "qdrant_indexed": false
+    },
+
+    "file_path": {
+      "type": "string",
+      "description": "Original file path in document storage (S3 key)",
+      "qdrant_indexed": false,
+      "examples": ["engineering/design_docs/microservices-migration.md"]
+    },
+
+    "file_format": {
+      "type": "string",
+      "enum": [".md", ".pdf", ".yaml", ".json", ".xlsx", ".pptx"],
+      "description": "Original file format",
+      "qdrant_indexed": false
+    },
+
+    "chunk_index": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Index of this chunk within the document (0-based)",
+      "qdrant_indexed": false
+    },
+
+    "chunk_count": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Total number of chunks for this document",
+      "qdrant_indexed": false
+    },
+
+    "text": {
+      "type": "string",
+      "description": "The actual text content of this chunk (used for embedding)",
+      "qdrant_indexed": false
+    },
+
+    "citations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "source": {"type": "string"},
+          "page": {"type": "integer"},
+          "section": {"type": "string"}
+        }
+      },
+      "default": [],
+      "description": "Source citations for this chunk",
+      "qdrant_indexed": false
+    },
+
+    "team": {
+      "type": "string",
+      "description": "Specific team within department (optional)",
+      "qdrant_indexed": true,
+      "examples": ["Backend Platform", "Platform SRE", "Recruiting"]
+    },
+
+    "manager_scope": {
+      "type": "object",
+      "properties": {
+        "direct_reports_only": {
+          "type": "boolean",
+          "default": false,
+          "description": "If true, managers can only see this for their direct reports"
+        },
+        "team_id": {
+          "type": "string",
+          "description": "Team ID for scoped manager access"
+        },
+        "employee_id": {
+          "type": "string",
+          "description": "Employee ID this document pertains to (for performance reviews)"
+        }
+      },
+      "description": "Special scoping rules for manager access",
+      "qdrant_indexed": true
+    }
+  },
+
+  "qdrant_payload_mapping": {
+    "description": "Fields to store in Qdrant payload for RBAC filtering",
+    "indexed_fields": [
+      "document_id",
+      "doc_type",
+      "access_level",
+      "department",
+      "status",
+      "owner_id",
+      "allowed_roles",
+      "allowed_departments",
+      "granted_users",
+      "denied_users",
+      "available_from",
+      "available_until",
+      "team",
+      "manager_scope"
+    ],
+    "filter_examples": {
+      "engineer_filter": {
+        "description": "RBAC filter for engineer role",
+        "filter": {
+          "must": [
+            {"key": "status", "match": {"value": "active"}}
+          ],
+          "must_not": [
+            {"key": "denied_users", "match": {"any": ["<user_id>"]}}
+          ],
+          "should": [
+            {"key": "access_level", "match": {"value": "public"}},
+            {"key": "allowed_roles", "match": {"any": ["engineer"]}},
+            {"key": "granted_users", "match": {"any": ["<user_id>"]}}
+          ],
+          "min_should_match": 1
+        }
+      },
+      "temporal_filter": {
+        "description": "Add temporal constraints for embargo/expiration",
+        "filter": {
+          "must": [
+            {
+              "should": [
+                {"key": "available_from", "match": {"value": null}},
+                {"key": "available_from", "range": {"lte": "<current_time>"}}
+              ]
+            },
+            {
+              "should": [
+                {"key": "available_until", "match": {"value": null}},
+                {"key": "available_until", "range": {"gte": "<current_time>"}}
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+
+  "validation_rules": {
+    "cross_field_validations": [
+      {
+        "rule": "access_level_role_consistency",
+        "description": "Public documents should have '*' or all roles in allowed_roles",
+        "check": "if access_level == 'public' then allowed_roles should include all basic roles"
+      },
+      {
+        "rule": "confidential_requires_audit",
+        "description": "Confidential documents should have requires_audit_log = true",
+        "check": "if access_level == 'confidential' then requires_audit_log == true"
+      },
+      {
+        "rule": "chunk_fields_together",
+        "description": "chunk_index and chunk_count must both be present or both absent",
+        "check": "chunk_index present iff chunk_count present"
+      },
+      {
+        "rule": "deprecated_needs_replacement",
+        "description": "Deprecated documents should reference replacement in related_docs",
+        "check": "if status == 'deprecated' then related_docs should not be empty"
+      }
+    ]
+  },
+
+  "metadata": {
+    "schema_version": "1.0.0",
+    "created_at": "2025-01-26T00:00:00Z",
+    "compatible_with_qdrant": "1.7+",
+    "compatible_with_taxonomy": "1.0.0",
+    "compatible_with_rbac": "1.0.0"
+  }
+}
