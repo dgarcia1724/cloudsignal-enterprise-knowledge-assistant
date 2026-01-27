@@ -54,12 +54,12 @@ A secure, role-based access control (RBAC) enabled knowledge assistant for Cloud
 - Handles deprecated documents and version conflicts
 
 ### 4. AWS Production Deployment
-- Multi-AZ ECS deployment (frontend + backend + Qdrant)
-- RDS PostgreSQL (Multi-AZ)
-- ElastiCache Redis
-- S3 document storage with versioning
-- CloudWatch monitoring and alarms
+- ECS Fargate (Backend + Qdrant services)
+- RDS PostgreSQL (db.t3.micro Free Tier)
+- S3 document storage
+- CloudWatch monitoring
 - Terraform infrastructure as code
+- Vercel frontend hosting (free)
 
 ### 5. Clean Architecture
 - Separation of concerns (services, models, schemas, API)
@@ -67,18 +67,48 @@ A secure, role-based access control (RBAC) enabled knowledge assistant for Cloud
 - Comprehensive testing (unit, integration, E2E)
 - Production observability (metrics, logging, tracing)
 
+## Cost Strategy
+
+**Budget Target**: <$100/month typical, <$300/month max
+
+This project is optimized for cost-effectiveness while maintaining FAANG-interview credibility. The architecture demonstrates production-ready patterns without requiring expensive always-on infrastructure.
+
+### Monthly Cost Breakdown
+
+| Category | Service | Est. Cost |
+|----------|---------|-----------|
+| **AWS Infrastructure** | | |
+| Compute | ECS Fargate (Backend) - 0.25 vCPU, 0.5GB | ~$10 |
+| Compute | ECS Fargate (Qdrant) - 0.5 vCPU, 1GB | ~$20 |
+| Database | RDS PostgreSQL db.t3.micro (Free Tier) | $0 |
+| Storage | S3 < 5GB (Free Tier) | $0 |
+| Secrets | AWS Secrets Manager | ~$2 |
+| Monitoring | CloudWatch (basic) | ~$5 |
+| **Frontend** | Vercel (Free Tier) | $0 |
+| **APIs** | | |
+| Embeddings | OpenAI text-embedding-3-small | ~$0.10 |
+| LLM | OpenAI GPT-4o-mini (~5K queries/mo) | ~$15 |
+| **Total** | | **~$50-75/mo** |
+
+### Cost Optimization Techniques
+
+1. **Free Tier Maximization**: RDS db.t3.micro (750 hrs/mo free), S3 (5GB free), Vercel (free hosting)
+2. **Efficient Models**: GPT-4o-mini instead of GPT-4 (10x cheaper), text-embedding-3-small instead of large (6x cheaper)
+3. **Local Reranking**: Cross-encoder runs on ECS instead of paid Cohere API
+4. **Response Caching**: Cache frequent queries to reduce API calls
+5. **Single Environment**: One AWS environment instead of Dev/Staging/Prod
+
 ## Tech Stack Rationale
 
 | Component | Technology | Why? |
 |-----------|-----------|------|
 | Backend | Python + FastAPI | Async/await, automatic OpenAPI docs, ML ecosystem |
-| Vector DB | Qdrant | Self-hosted, payload filtering for RBAC, HNSW performance |
-| Frontend | Next.js 15 (App Router) | Modern React, SSR, most in-demand stack |
-| Database | PostgreSQL | ACID, JSONB support, RDS compatible |
-| Embeddings | OpenAI text-embedding-3-large | SOTA performance (3072 dim) |
-| LLM | Claude Opus 4.5 / Sonnet 4.5 | Best reasoning, 200K context |
-| Reranker | Cohere Rerank API | Best accuracy, cost-effective |
-| Cache | Redis | Session storage, rate limiting |
+| Vector DB | Qdrant | Self-hosted on ECS, payload filtering for RBAC, HNSW performance |
+| Frontend | Next.js 15 (App Router) | Modern React, SSR, hosted on Vercel (free) |
+| Database | PostgreSQL | ACID, JSONB support, RDS Free Tier (db.t3.micro) |
+| Embeddings | OpenAI text-embedding-3-small | Cost-effective (1536 dim), excellent quality |
+| LLM | OpenAI GPT-4o-mini | Best cost/performance ($0.15/1M input tokens) |
+| Reranker | Cross-encoder (sentence-transformers) | Local inference, no API cost |
 | Cloud | AWS | Industry standard, interview relevance |
 | IaC | Terraform | Declarative, state management |
 
@@ -207,8 +237,7 @@ cloudsignal-enterprise-knowledge-assistant/
 │   └── tests/                   # Component tests, E2E
 │
 ├── infrastructure/              # DevOps, IaC
-│   ├── terraform/               # AWS infrastructure
-│   └── docker-compose.yml       # Local development
+│   └── terraform/               # AWS infrastructure (networking, compute, database)
 │
 ├── data/                        # Datasets
 │   ├── documents/               # Synthetic CloudSignal docs
@@ -226,34 +255,37 @@ cloudsignal-enterprise-knowledge-assistant/
 
 ## Development Workflow
 
-### Local Development
+### Prerequisites
 
-**Prerequisites**:
 - Python 3.11+
 - Node.js 20+
-- Docker & Docker Compose
+- AWS CLI configured
+- Terraform
 - Poetry (Python dependency management)
 - pnpm (Node package manager)
 
-**Setup**:
+### Setup
+
 ```bash
 # Backend
 cd backend
 poetry install
-poetry shell
 
 # Frontend
 cd frontend
 pnpm install
 
-# Infrastructure (local services)
-docker-compose up -d  # PostgreSQL, Qdrant, Redis
+# Deploy infrastructure
+cd infrastructure/terraform
+terraform init
+terraform apply
 ```
 
-**Environment Variables**:
-- Copy `.env.example` to `.env`
+### Environment Variables
+
+- Use AWS Secrets Manager for all secrets (API keys, DB credentials)
 - Never commit `.env` files
-- Use AWS Secrets Manager in production
+- Access secrets via AWS SDK in application code
 
 ### Testing
 
@@ -340,13 +372,12 @@ Log all security-relevant events:
 
 ## Monitoring & Observability
 
-### Metrics (Prometheus)
+### Metrics (CloudWatch)
 
 Track:
 - RBAC denials by role/document type
-- Query latency by role (p50, p95, p99)
-- Unauthorized access attempts
-- Embedding generation time
+- Query latency (p50, p95)
+- API error rates
 - LLM token usage
 
 ### Logging (Structured JSON)
@@ -364,51 +395,49 @@ Include in every log:
 Alert on:
 - High error rate (>5%)
 - P95 latency spike (>10s)
-- Unauthorized access attempts (>10/hour)
-- Database connection pool exhaustion
 - ECS task failures
 
 ## Deployment
 
-### Environments
+### Environment
 
-1. **Local**: Docker Compose (PostgreSQL, Qdrant, Redis)
-2. **Dev**: AWS (shared resources, lower specs)
-3. **Staging**: AWS (production-like, for testing)
-4. **Production**: AWS (Multi-AZ, auto-scaling, full monitoring)
+**Single AWS Environment** (cost-optimized, production-ready architecture)
 
-### CI/CD Pipeline
+| Service | Configuration | Purpose |
+|---------|--------------|---------|
+| ECS Fargate | 2 services (Backend + Qdrant) | Compute |
+| RDS PostgreSQL | db.t3.micro (Free Tier) | Database |
+| S3 | Single bucket | Document storage |
+| Secrets Manager | API keys, DB credentials | Secrets |
+| CloudWatch | Basic logs and metrics | Monitoring |
+| Vercel | Connected to GitHub | Frontend hosting |
+
+### CI/CD Pipeline (GitHub Actions)
 
 **On Pull Request**:
-- Lint & format checks
+- Lint & format checks (Ruff, Black, ESLint, Prettier)
 - Unit tests
-- Integration tests
 - **RBAC security tests** (MUST pass, 0% leakage)
-- Build Docker images
 
 **On Merge to Main**:
 - All PR checks
-- E2E tests
-- Build & push to ECR
-- Deploy to staging
+- Build & push Docker images to ECR
+- Deploy to ECS
 - Run smoke tests
-- Manual approval
-- Deploy to production
-- Post-deployment verification
+- Vercel auto-deploys frontend
 
-### Rollback Strategy
+### Infrastructure as Code
 
-- Blue/green deployment (ECS)
-- Database migrations are backward-compatible
-- Feature flags for gradual rollout
-- Automated rollback on alarm triggers
+Terraform modules (3 total):
+- `networking/` - VPC, security groups, subnets
+- `compute/` - ECS cluster, task definitions, services
+- `database/` - RDS PostgreSQL instance
 
 ## Common Commands (Makefile)
 
 ```bash
 # Development
 make setup          # Install dependencies (backend + frontend)
-make dev            # Start local development servers
 make test           # Run all tests
 make lint           # Run all linters
 make format         # Auto-format all code
@@ -421,12 +450,11 @@ make seed           # Seed database with users/roles
 # Infrastructure
 make infra-plan     # Terraform plan
 make infra-apply    # Terraform apply
-make infra-destroy  # Terraform destroy (staging only)
+make infra-destroy  # Terraform destroy
 
-# Docker
+# Deployment
 make build          # Build Docker images
-make up             # Start Docker Compose services
-make down           # Stop Docker Compose services
+make deploy         # Deploy to AWS ECS
 ```
 
 ## Interview Talking Points
@@ -435,13 +463,13 @@ When discussing this project in FAANG interviews:
 
 1. **Security-First**: "I enforced RBAC at retrieval time using Qdrant payload filtering, ensuring unauthorized documents never reach the LLM context. Validated with 0% unauthorized leakage rate."
 
-2. **Evaluation Rigor**: "I built the evaluation framework FIRST with 100 QA pairs covering security, retrieval quality, and edge cases. Runs in CI/CD on every PR."
+2. **Evaluation Rigor**: "I built the evaluation framework FIRST with 50-100 QA pairs covering security, retrieval quality, and edge cases. Runs in CI/CD on every PR."
 
-3. **Production Readiness**: "Multi-AZ AWS deployment with auto-scaling ECS, managed RDS/Redis, CloudWatch monitoring, and Terraform IaC."
+3. **Production-Ready Architecture**: "AWS deployment with ECS Fargate, RDS PostgreSQL, Terraform IaC. Architecture designed for Multi-AZ scaling - can discuss trade-offs between cost and high availability."
 
-4. **Cost Optimization**: "Two-stage retrieval with reranking reduced costs 75% while maintaining 95%+ recall."
+4. **Cost Optimization**: "Reduced infrastructure costs 90% using Free Tier services and efficient models (GPT-4o-mini, text-embedding-3-small). Two-stage retrieval with local cross-encoder reranking eliminates API costs."
 
-5. **Systems Thinking**: "Idempotent ingestion pipeline with document hashing, versioning, retry logic, and DLQ for fault tolerance."
+5. **Systems Thinking**: "Idempotent ingestion pipeline with document hashing and versioning. Hybrid retrieval (BM25 + vector) with Reciprocal Rank Fusion for robust results."
 
 ## Resources
 
@@ -462,9 +490,9 @@ When discussing this project in FAANG interviews:
 
 ---
 
-**Current Status**: Repository initialized, ready for STEP 1 (Company Profile & Roles)
+**Current Status**: STEPS 0-2 complete (Company Profile, Role Personas, RBAC Matrix, Security Model)
 
 **Next Steps**:
-1. Create company profile JSON
-2. Document role personas
-3. Begin RBAC matrix design
+1. Document taxonomy & metadata schema (STEP 3)
+2. Generate synthetic dataset (STEP 4)
+3. Retrieval strategy documentation (STEP 5)
